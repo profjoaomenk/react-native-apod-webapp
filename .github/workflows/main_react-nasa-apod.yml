@@ -12,8 +12,6 @@ on:
 env:
   # NASA API key recorded as GitHub secret
   REACT_APP_NASA_API_KEY: ${{ secrets.REACT_APP_NASA_API_KEY }}
-  # change both instances of "react-native-apod-webapp" to the name of your repo
-  AZURE_WEBAPP_PACKAGE_PATH: '/home/runner/work/react-native-apod-webapp/react-native-apod-webapp'   
 
 jobs:
   build:
@@ -44,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Development'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -58,6 +56,6 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'react-nasa-apod'
-          slot-name: 'Development'
+          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AA6A6A33301545D5B8458C2303152838 }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: .
